@@ -7,5 +7,6 @@ gem "trollop"
 
 gem "nokogiri"
 gem "haml"
+gem "sass"
 gem "kramdown"
 gem "coffee-script"

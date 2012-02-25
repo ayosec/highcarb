@@ -1,5 +1,6 @@
 
-require 'coffee-script'
+require "json"
+require "coffee-script"
 
 module HighCarb
   module ViewsController

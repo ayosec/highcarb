@@ -1,6 +1,6 @@
 
 $ ->
-  $("article").load "/slides",
+  $(".deck-container").load "/slides",
     -> $.deck ".slide"
 
   toJson = JSON.stringify
