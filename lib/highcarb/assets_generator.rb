@@ -6,7 +6,7 @@ module HighCarb
         plain_response! 403, "URL can not contain /../"
       end
 
-      asset_path = assets_root.join(asset)
+      asset_path = assets_root.join("./" + asset)
       if not asset_path.exist?
         not_found! asset
       end

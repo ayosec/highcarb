@@ -21,7 +21,7 @@ module HighCarb
     def initialize(command)
       @command = command
       @root = Pathname.new(command.args.first)
-      @assets_root = @root.join("/assets")
+      @assets_root = @root.join("./assets")
     end
 
     def plain_response!(status, content)
