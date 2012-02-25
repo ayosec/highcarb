@@ -1,6 +1,6 @@
 source :rubygems
 
 gem "thin"
-gem "sinatra"
+gem "mime-types"
 gem "em-websocket"
 gem "trollop"
