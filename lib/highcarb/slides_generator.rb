@@ -40,6 +40,17 @@ module HighCarb
         asset_tag.replace load_asset(asset_tag.inner_text.strip, asset_tag.attributes["class"].to_s.split)
       end
 
+      # Find the <external> tags and replace with <a>
+      # The text shown will be reduced
+      page.search("external").each do |external_tag|
+        href = ERB::Util.h(external_tag.inner_text.strip)
+
+        text = href.gsub(/\w+:\/+/, "")
+        text = text[0,45] + "&hellip;" if text.length > 45
+
+        external_tag.replace %[<a class="external" href="#{href}" target="_blank" title="Open #{href} in a new window">#{text}</a>]
+      end
+
       # Response with everything
       output = page.at("body").inner_html
       throw :response, [200, {'Content-Type' => 'text/html'}, output]
