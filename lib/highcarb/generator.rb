@@ -11,6 +11,7 @@ module HighCarb
     end
 
     attr_reader :path
+    attr_reader :command
 
     def initialize(command, path)
       @command = command
@@ -32,6 +33,17 @@ module HighCarb
       create_file path.join("styles/base.scss"),
         "/*\n * This file will be included in the generated HTML after been processed with the SASS compiler.\n" +
         " * You can use the Compass modules if you want\n */\n"
+
+      # Download deck.js, which will include jQuery
+      if not command.options["skip-libs"]
+        vendor_path = path.join("assets/vendor")
+        vendor_path.mkpath
+        Dir.chdir vendor_path do
+          puts "Downloading Deck.js into \033[1m#{vendor_path}\033[m..."
+          system "curl -L https://github.com/imakewebthings/deck.js/tarball/master | tar xzf -"
+          vendor_path.children.first.rename vendor_path.join("deck.js")
+        end
+      end
     end
 
     # Helpers

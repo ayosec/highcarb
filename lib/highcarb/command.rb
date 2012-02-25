@@ -22,8 +22,11 @@ module HighCarb
       @options = Trollop.options(@args) do
         opt "generate", "Generate a new highcarb project"
         opt "server", "Start the servers (default action). See --http-port and --ws-port"
+
         opt "http-port", "HTTP server port", default: 9090
         opt "ws-port", "WebSockets port", default: 9091
+
+        opt "skip-libs", "Don't download vendor libraries, like Deck.js and jQuery"
       end
 
       self
