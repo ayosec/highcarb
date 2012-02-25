@@ -28,17 +28,21 @@ module HighCarb
         "  Content\n"
 
       create_file path.join("assets/README"),
-        "Put in this directory any file that you want to use in your presentation (images, et al)\n"
+        "Put in this directory any file that you want to use in your presentation (images, et al)\n\n" +
+        "Files ending with .coffee will be compiled with CoffeeScript.\n" +
+        "Files ending with .scss will be compiled with SASS. Compass is available."
+
+      create_file path.join("assets/base.scss"),
+        "/*\n * Write here your own styles.\n" +
+        " * Compass modules are available\n */\n\n\n" +
+        "@import url('/assets/vendor/deck.js/themes/style/swiss.css');\n" +
+        "@import url('/assets/vendor/deck.js/themes/transition/horizontal-slide.css');\n"
 
       create_file path.join("snippets/README"),
         "Put in this directory any snippet of code that you want to include in your presentation.\n" +
         "You need to install Pygmentize if you want to format the code.\n" +
         "The snippets are loaded with a <snippet>name.rb</snippet> tag.\n" +
         "With Haml, you can use %snippet name.rb\n"
-
-      create_file path.join("styles/base.scss"),
-        "/*\n * This file will be included in the generated HTML after been processed with the SASS compiler.\n" +
-        " * You can use the Compass modules if you want\n */\n"
 
       # Download deck.js, which will include jQuery
       if not command.options["skip-libs"]

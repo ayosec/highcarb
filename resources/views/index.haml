@@ -1,0 +1,21 @@
+!!! 5
+%html
+  %head
+    %link{rel: "stylesheet", href: "/assets/base.scss"}
+
+  %body
+    %article Loading...
+
+    %script{ src: "/assets/vendor/deck.js/jquery-1.7.min.js" }
+    %script{ src: "/assets/vendor/deck.js/modernizr.custom.js" }
+    %script{ src: "/assets/vendor/deck.js/core/deck.core.js" }
+    %script{ src: "/assets/vendor/deck.js/extensions/menu/deck.menu.js" }
+    %script{ src: "/assets/vendor/deck.js/extensions/goto/deck.goto.js" }
+    %script{ src: "/assets/vendor/deck.js/extensions/status/deck.status.js" }
+    %script{ src: "/assets/vendor/deck.js/extensions/hash/deck.hash.js" }
+
+    :javascript
+      window.WebSocketsURL = "ws://" + location.hostname + ":#{options["ws-port"].to_json}/";
+
+    = load_coffe "index"
+

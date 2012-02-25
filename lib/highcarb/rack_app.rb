@@ -6,6 +6,7 @@ require "kramdown"
 
 require "highcarb/assets_controller"
 require "highcarb/slides_controller"
+require "highcarb/views_controller"
 
 module HighCarb
 
@@ -13,6 +14,7 @@ module HighCarb
 
     include SlidesController
     include AssetsController
+    include ViewsController
 
     attr_reader :command
     attr_reader :root
@@ -42,10 +44,10 @@ module HighCarb
           assets $1
 
         when "/remote"
-          remote
+          render_view "remote"
 
         when "/"
-          root_path
+          render_view "index"
 
         else
           not_found! env["PATH_INFO"]
