@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+
+require "bundler/setup"
+require "trollop"
+require "thin"
+require "em-websocket"
+
+require "highcarb/sinatra"
+require "highcarb/sockets"
+
+
+Options = Trollop.options do
+
+  opt "http-port", "HTTP server port", default: 9090
+  opt "ws-port", "WebSockets port", default: 9091
+
+end
+
+EM.run do
+
+  EM::WebSocket.start(host: '0.0.0.0', port: Options["ws-port"] ) do |websocket|
+    WSConnection.new websocket
+  end
+
+  SinatraApp.run! port: Options["http-port"]
+end
+
