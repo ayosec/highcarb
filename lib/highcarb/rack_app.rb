@@ -4,15 +4,15 @@ require "pathname"
 require "haml"
 require "kramdown"
 
-require "highcarb/assets_generator"
-require "highcarb/slides_generator"
+require "highcarb/assets_controller"
+require "highcarb/slides_controller"
 
 module HighCarb
 
   class RackApp
 
-    include SlidesGenerator
-    include AssetsGenerator
+    include SlidesController
+    include AssetsController
 
     attr_reader :command
     attr_reader :root

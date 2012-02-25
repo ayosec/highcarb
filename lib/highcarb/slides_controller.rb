@@ -2,7 +2,7 @@
 require "nokogiri"
 
 module HighCarb
-  module SlidesGenerator
+  module SlidesController
     def slides
       output = []
 

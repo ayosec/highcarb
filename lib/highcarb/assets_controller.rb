@@ -1,6 +1,6 @@
 
 module HighCarb
-  module AssetsGenerator
+  module AssetsController
     def assets(asset)
       if asset.include?("/../")
         plain_response! 403, "URL can not contain /../"
