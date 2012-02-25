@@ -30,6 +30,12 @@ module HighCarb
       create_file path.join("assets/README"),
         "Put in this directory any file that you want to use in your presentation (images, et al)\n"
 
+      create_file path.join("snippets/README"),
+        "Put in this directory any snippet of code that you want to include in your presentation.\n" +
+        "You need to install Pygmentize if you want to format the code.\n" +
+        "The snippets are loaded with a <snippet>name.rb</snippet> tag.\n" +
+        "With Haml, you can use %snippet name.rb\n"
+
       create_file path.join("styles/base.scss"),
         "/*\n * This file will be included in the generated HTML after been processed with the SASS compiler.\n" +
         " * You can use the Compass modules if you want\n */\n"

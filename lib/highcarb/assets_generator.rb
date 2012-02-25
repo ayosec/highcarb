@@ -1,5 +1,5 @@
 
-module SlidesGenerator
+module HighCarb
   module AssetsGenerator
     def assets(asset)
       if asset.include?("/../")

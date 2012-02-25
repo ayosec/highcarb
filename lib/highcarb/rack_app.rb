@@ -45,7 +45,7 @@ module HighCarb
           remote
 
         when "/"
-          root
+          root_path
 
         else
           not_found! env["PATH_INFO"]
