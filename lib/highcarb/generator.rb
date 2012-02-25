@@ -25,7 +25,7 @@ module HighCarb
       create_file path.join("slides/0001.haml"),
         ".slide\n" +
         "  %h1 Title\n" +
-        "    Content\n"
+        "  Content\n"
 
       create_file path.join("assets/README"),
         "Put in this directory any file that you want to use in your presentation (images, et al)\n"
