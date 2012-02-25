@@ -4,9 +4,15 @@ require "pathname"
 require "haml"
 require "kramdown"
 
+require "highcarb/assets_generator"
+require "highcarb/slides_generator"
+
 module HighCarb
 
   class RackApp
+
+    include SlidesGenerator
+    include AssetsGenerator
 
     attr_reader :command
     attr_reader :root
@@ -16,6 +22,14 @@ module HighCarb
       @command = command
       @root = Pathname.new(command.args.first)
       @assets_root = @root.join("/assets")
+    end
+
+    def plain_response!(status, content)
+      throw :response, [status, {'Content-Type' => 'text/plain'}, content]
+    end
+
+    def not_found!(path)
+      plain_response! 404, "Object #{path} not found"
     end
 
     def call(env)
@@ -39,62 +53,5 @@ module HighCarb
       end
     end
 
-    def plain_response!(status, content)
-      throw :response, [status, {'Content-Type' => 'text/plain'}, content]
-    end
-
-    def not_found!(path)
-      plain_response! 404, "Object #{path} not found"
-    end
-
-    def assets(asset)
-      if asset.include?("/../")
-        plain_response! 403, "URL can not contain /../"
-      end
-
-      asset_path = assets_root.join(asset)
-      if not asset_path.exist?
-        not_found! asset
-      end
-
-      if not asset_path.file?
-        plain_response! 403, "#{asset} is not a file"
-      end
-
-      mime_type = MIME::Types.type_for(asset_path.to_s).first || "application/octet-stream"
-
-      [
-        200,
-        { "Content-Type" => mime_type.to_s },
-        asset_path.read
-      ]
-    end
-
-
-    def slides
-      output = []
-
-      root.join("slides").children.sort.each do |slide_file|
-        # Only use non-hidden files
-        if slide_file.file? and slide_file.to_s !~ /^\./
-          case slide_file.extname.downcase
-          when ".haml"
-            output << Haml::Engine.new(slide_file.read).render
-
-          when ".html"
-            output << slide_file.read
-
-          when ".md"
-            output << Kramdown::Document.new(slide_file.read).to_html
-
-          else
-            STDERR.puts "\033[31mCan not parse #{slide_file}\033[m"
-          end
-        end
-      end
-
-      throw :response, [200, {'Content-Type' => 'text/html'}, output]
-
-    end
   end
 end
