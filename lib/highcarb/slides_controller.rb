@@ -51,6 +51,14 @@ module HighCarb
         external_tag.replace %[<a class="external" href="#{href}" target="_blank" title="Open #{href} in a new window">#{text}</a>]
       end
 
+      # Append a server side generated identifier. This helps to identify them
+      # both in presenter- and remote-control-mode
+      last_slide_id = 0
+      page.search(".slide").each do |slide_node|
+        last_slide_id += 1
+        slide_node["data-slide-id"] = last_slide_id.to_s
+      end
+
       # Response with everything
       output = page.at("body").inner_html
       throw :response, [200, {'Content-Type' => 'text/html'}, output]

@@ -1,0 +1,57 @@
+!!! 5
+%html
+  %head
+    %title Remote control
+    %script{ src: "/assets/vendor/deck.js/jquery-1.7.min.js" }
+
+    %style
+      :erb
+        body {
+          background: black;
+          color: white;
+        }
+
+        .slides > .slide {
+          background: white;
+          color: black;
+          border: 1px solid black;
+          padding: 1em;
+          margin: 1em;
+        }
+
+        .slide:hover {
+          cursor: pointer;
+          border: 1px solid black;
+        }
+
+        .remote-selected { background: #ffc !important; }
+
+        .actions {
+          position: fixed;
+          right: 1em;
+          top: 1em;
+        }
+
+        .actions span {
+          color: black;
+          background: gray;
+          display: inline-block;
+          font-size: 120%;
+          cursor: pointer;
+          margin: 0.1ex;
+          padding: 0.5ex;
+        }
+
+
+  %body
+    .actions
+      %span.prev Prev
+      %span.next Next
+
+    .slides Loading ...
+
+    :javascript
+      window.WebSocketsURL = "ws://" + location.hostname + ":#{options["ws-port"].to_json}/";
+
+    = load_coffe "remote"
+

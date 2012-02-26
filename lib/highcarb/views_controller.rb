@@ -26,7 +26,7 @@ module HighCarb
       end
 
       if not view_path.exist?
-        not_found!
+        not_found! view_name + " view"
       end
 
       output = Haml::Engine.new(view_path.read).render(ViewContext.new(command.options, view_path.dirname))
