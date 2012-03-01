@@ -1,5 +1,6 @@
 
 require "trollop"
+require "logger"
 
 require "highcarb"
 require "highcarb/generator"
@@ -14,6 +15,7 @@ module HighCarb
     def initialize
       @command_line = @args = []
       @options = {}
+      @logger = Logger.new(STDERR).tap {|logger| logger.level = Logger::WARN }
     end
 
     def parse!(args)
@@ -27,6 +29,12 @@ module HighCarb
         opt "ws-port", "WebSockets port", default: 9091
 
         opt "skip-libs", "Don't download vendor libraries, like Deck.js and jQuery"
+
+        opt "verbose", "Be verbose"
+      end
+
+      if @options["verbose"]
+        @logger.level = Logger::DEBUG
       end
 
       self
@@ -43,7 +51,7 @@ module HighCarb
         # Generate a new project
         HighCarb::Generator.new(self, args.first).run!
       else
-        HighCarb::Services.start!(self)
+        HighCarb::Services.start!(self, @logger)
       end
 
     rescue HighCarb::Error => error

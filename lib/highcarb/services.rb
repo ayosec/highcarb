@@ -9,10 +9,10 @@ module HighCarb
   module Services
     extend self
 
-    def start!(command)
+    def start!(command, logger)
       EM.run do
         EM::WebSocket.start(host: '0.0.0.0', port: command.options["ws-port"] ) do |websocket|
-          WSConnection.new websocket
+          WSConnection.new websocket, logger
         end
 
         Thin::Server.start(
