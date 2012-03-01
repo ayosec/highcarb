@@ -38,6 +38,10 @@ module HighCarb
         "@import url('/assets/vendor/deck.js/themes/style/swiss.css');\n" +
         "@import url('/assets/vendor/deck.js/themes/transition/horizontal-slide.css');\n"
 
+      create_file path.join("assets/remote.scss"), "/* Add here your styles for the /remote view */"
+      create_file path.join("assets/custom-remote.coffee"), "# Add here your own code for the /remote view"
+      create_file path.join("assets/custom.coffee"), "# Add here your own code for the views"
+
       create_file path.join("snippets/README"),
         "Put in this directory any snippet of code that you want to include in your presentation.\n" +
         "You need to install Pygmentize if you want to format the code.\n" +

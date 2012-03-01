@@ -3,6 +3,8 @@
   %head
     %title Remote control
     %script{ src: "/assets/vendor/deck.js/jquery-1.7.min.js" }
+    %script{ src: "/assets/custom.coffee" }
+    %script{ src: "/assets/custom-remote.coffee" }
 
     %style
       :erb
@@ -42,6 +44,8 @@
           padding: 0.5ex;
         }
 
+    %link{rel: "stylesheet", href: "/assets/base.scss"}
+    %link{rel: "stylesheet", href: "/assets/remote.scss"}
 
   %body
     .actions
