@@ -5,7 +5,9 @@ $ ->
 
   # Load slides and initialize Deck.js
   $(".deck-container").load "/slides",
-    -> $.deck ".slide"
+    ->
+      $(".deck-container").find(".note").remove()
+      $.deck ".slide"
 
   # Open a permanent connection to the server. With this channel
   # we can receive commands to change the current slide
