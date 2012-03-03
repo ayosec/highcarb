@@ -1,4 +1,5 @@
 
+require "digest/md5"
 require "nokogiri"
 
 module HighCarb
@@ -66,16 +67,30 @@ module HighCarb
 
     def load_snippet(snippet_name)
       snippet_path = root.join("snippets", snippet_name)
-      begin
-        IO.popen(["pygmentize", "-f", "html", "-O", "noclasses=true", snippet_path.to_s]).read
-      rescue Errno::ENOENT
-        if not @pygmentize_error_shown
-          STDERR.puts "\033[31mpygmentize could not be used. You have to install it if you want to highlight the snippets."
-          STDERR.puts "The snippets will be included with no format\033[m"
-          @pygmentize_error_shown = true
+      snippet_html_cached = root.join("tmp", "snippets",
+                                      Digest::MD5.new.tap {|digest| digest << snippet_path.read }.hexdigest + ".html")
+
+      if snippet_html_cached.exist? and snippet_html_cached.mtime > snippet_path.mtime
+
+        snippet_html_cached.read
+
+      else
+
+        content = begin
+          IO.popen(["pygmentize", "-f", "html", "-O", "noclasses=true", snippet_path.to_s]).read
+        rescue Errno::ENOENT
+          if not @pygmentize_error_shown
+            STDERR.puts "\033[31mpygmentize could not be used. You have to install it if you want to highlight the snippets."
+            STDERR.puts "The snippets will be included with no format\033[m"
+            @pygmentize_error_shown = true
+          end
+
+          %[<pre class="raw-snippet">#{ERB::Util.h snippet_path.read}</pre>]
         end
 
-        %[<pre class="raw-snippet">#{ERB::Util.h snippet_path.read}</pre>]
+        snippet_html_cached.dirname.mkpath
+        snippet_html_cached.open("w") {|f| f.write content }
+        content
       end
     end
 
