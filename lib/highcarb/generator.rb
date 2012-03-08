@@ -50,7 +50,7 @@ module HighCarb
 
       # Download deck.js, which will include jQuery
       if not command.options["skip-libs"]
-        vendor_path = path.join("assets/vendor")
+        vendor_path = path.join("assets/vendor").expand_path
         vendor_path.mkpath
         Dir.chdir vendor_path do
           puts "Downloading Deck.js into \033[1m#{vendor_path}\033[m..."
