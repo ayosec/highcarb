@@ -1,3 +1,17 @@
+PATH
+  remote: .
+  specs:
+    highcarb (0.1)
+      coffee-script
+      em-websocket
+      haml
+      kramdown
+      mime-types
+      nokogiri
+      sass
+      thin
+      trollop
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -30,12 +44,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  coffee-script
-  em-websocket
-  haml
-  kramdown
-  mime-types
-  nokogiri
-  sass
-  thin
-  trollop
+  highcarb!
