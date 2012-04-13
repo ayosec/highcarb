@@ -6,15 +6,8 @@ The presentation is based on Deck.js
 
 ## Installation
 
-I have to create a gem (or event a .deb package). Right now, the easiest way to install it
-is clone the repository and add an alias.
-
 ```
-  $ cd /somewhere/
-  $ git clone git://github.com/ayosec/highcarb.git
-  $ cd highcarb
-  $ bundle install
-  $ alias highcarb="ruby /somewhere/highcarb/bin/highcarb"
+  $ gem install highcarb
 ```
 
 ### Dependencies
@@ -28,6 +21,12 @@ In Debian (and derived) everything can be installed with
   $ sudo apt-get install nodejs python-pygments
 ```
 
+Mac OSX
+
+```
+  $ brew install node.js
+  $ sudo easy_install Pygments
+```
 ## Generate a presentation project
 
 The `-g` flag generate a new tree with the base for the presentation
