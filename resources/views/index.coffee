@@ -4,8 +4,9 @@ window.WebSocket = MozWebSocket if MozWebSocket?
 $ ->
 
   # Load slides and initialize Deck.js
-  $(".slides").load "/slides",
-    ->
+  $.get "/slides",
+    (data) ->
+      $(".slides").replaceWith data
       $(".slides").find(".note").remove()
       $.deck ".slide"
 
