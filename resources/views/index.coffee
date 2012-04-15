@@ -4,9 +4,9 @@ window.WebSocket = MozWebSocket if MozWebSocket?
 $ ->
 
   # Load slides and initialize Deck.js
-  $(".deck-container").load "/slides",
+  $(".slides").load "/slides",
     ->
-      $(".deck-container").find(".note").remove()
+      $(".slides").find(".note").remove()
       $.deck ".slide"
 
   # Open a permanent connection to the server. With this channel

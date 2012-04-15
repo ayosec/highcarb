@@ -35,8 +35,16 @@ module HighCarb
       create_file path.join("assets/base.scss"),
         "/*\n * Write here your own styles.\n" +
         " * Compass modules are available\n */\n\n\n" +
+        "@import url('/assets/vendor/deck.js/core/deck.core.scss');\n" +
+        "@import url('/assets/vendor/deck.js/extensions/goto/deck.goto.scss');\n" +
+        "@import url('/assets/vendor/deck.js/extensions/menu/deck.menu.scss');\n" +
+        "@import url('/assets/vendor/deck.js/extensions/navigation/deck.navigation.scss');\n" +
+        "@import url('/assets/vendor/deck.js/extensions/status/deck.status.scss');\n" +
+        "@import url('/assets/vendor/deck.js/extensions/hash/deck.hash.scss');\n" +
+        "\n\n/* Choose your favourite deck.js theme */\n" +
         "@import url('/assets/vendor/deck.js/themes/style/swiss.css');\n" +
         "@import url('/assets/vendor/deck.js/themes/transition/horizontal-slide.css');\n"
+
 
       create_file path.join("assets/remote.scss"), "/* Add here your styles for the /remote view */"
       create_file path.join("assets/custom-remote.coffee"), "# Add here your own code for the /remote view"
