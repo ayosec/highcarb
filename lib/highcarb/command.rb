@@ -1,6 +1,7 @@
 
 require "trollop"
 require "logger"
+require "io/console"
 
 require "highcarb"
 require "highcarb/generator"
@@ -31,6 +32,8 @@ module HighCarb
         opt "skip-libs", "Don't download vendor libraries, like Deck.js and jQuery"
 
         opt "verbose", "Be verbose"
+
+        opt "auth", "Require auth to access", default: ""
       end
 
       if @options["verbose"]
@@ -51,7 +54,19 @@ module HighCarb
         # Generate a new project
         HighCarb::Generator.new(self, args.first).run!
       else
-        HighCarb::Services.start!(self, @logger)
+        auth = nil
+        if not options["auth"].empty?
+          user, password = options["auth"].split(":", 2)
+          if password.nil?
+            print "Type the password for #{user}: "
+            $stdout.flush
+            password = $stdin.noecho { $stdin.readline.chomp }
+          end
+
+          auth = [ user, password ]
+        end
+
+        HighCarb::Services.start!(self, @logger, auth)
       end
 
     rescue HighCarb::Error => error
