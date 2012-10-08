@@ -3,6 +3,7 @@ require "mime/types"
 require "pathname"
 require "haml"
 require "kramdown"
+require "yaml"
 
 require "highcarb/assets_controller"
 require "highcarb/slides_controller"
@@ -19,11 +20,15 @@ module HighCarb
     attr_reader :command
     attr_reader :root
     attr_reader :assets_root
+    attr_reader :config
 
     def initialize(command)
       @command = command
       @root = Pathname.new(command.args.first)
       @assets_root = @root.join("./assets")
+
+      config_path = @root.join("config.yml")
+      @config = config_path.exist? ? YAML.load(config_path.read) : {}
     end
 
     def plain_response!(status, content)

@@ -66,6 +66,10 @@ module HighCarb
           vendor_path.children.first.rename vendor_path.join("deck.js")
         end
       end
+
+      create_file path.join("config.yml"), {
+        "jquery" => Dir.chdir(path) { "/#{Dir["assets/**/jquery*.js"].first}" }
+      }.to_yaml
     end
 
     # Helpers

@@ -8,14 +8,19 @@ module HighCarb
     DefaultViewsPath = Pathname.new(File.expand_path("../../../resources/views/", __FILE__))
 
     class ViewContext
-      attr_reader :options, :root
-      def initialize(options, root)
+      attr_reader :app, :options, :root
+      def initialize(app, options, root)
+        @app = app
         @options = options
         @root = root
       end
 
       def load_coffe(source)
         "<script>//<![CDATA[\n" + CoffeeScript.compile(root.join(source + ".coffee").read) + "\n//]]></script>"
+      end
+
+      def jquery_path
+        Dir.chdir(root) { Dir["assets/vendor/deck.js/jquery-*.js"].first }
       end
     end
 
@@ -29,7 +34,7 @@ module HighCarb
         not_found! view_name + " view"
       end
 
-      output = Haml::Engine.new(view_path.read).render(ViewContext.new(command.options, view_path.dirname))
+      output = Haml::Engine.new(view_path.read).render(ViewContext.new(self, command.options, view_path.dirname))
 
       throw :response, [200, {'Content-Type' => 'text/html'}, output]
     end
