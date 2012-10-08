@@ -28,6 +28,7 @@ module HighCarb
 
         opt "http-port", "HTTP server port", default: 9090
         opt "ws-port", "WebSockets port", default: 9091
+        opt "ws", "Enable/Disable WebSockets", default: true
 
         opt "skip-libs", "Don't download vendor libraries, like Deck.js and jQuery"
 

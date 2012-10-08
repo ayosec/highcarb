@@ -15,6 +15,7 @@
     %script{ src: "/assets/vendor/deck.js/extensions/hash/deck.hash.js" }
 
     :javascript
+      window.EnableWebSocketsURL = #{!!options["no-ws"]};
       window.WebSocketsURL = "ws://" + location.hostname + ":#{options["ws-port"].to_json}/";
 
     = load_coffe "index"

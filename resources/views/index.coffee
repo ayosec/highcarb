@@ -14,6 +14,11 @@ $ ->
   # we can receive commands to change the current slide
   toJson = JSON.stringify
 
+
+  # Don't initialize the websocket if we don't have any URL
+  return unless EnableWebSocketsURL
+
+
   channel = new WebSocket WebSocketsURL
   channel.onmessage = (msgEvent) ->
     msg = JSON.parse(msgEvent.data)

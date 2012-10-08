@@ -2,6 +2,9 @@
 window.WebSocket = MozWebSocket if MozWebSocket?
 
 $ ->
+  # Don't initialize the websocket if we don't have any URL
+  return unless EnableWebSocketsURL
+
   $(".slides").
     load("/slides").
     delegate(".slide", "click", (event) ->

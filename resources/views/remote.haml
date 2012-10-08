@@ -54,6 +54,7 @@
     .slides Loading ...
 
     :javascript
+      window.EnableWebSocketsURL = #{!!options["ws"]};
       window.WebSocketsURL = "ws://" + location.hostname + ":#{options["ws-port"].to_json}/";
 
     = load_coffe "remote"

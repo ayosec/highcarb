@@ -11,8 +11,10 @@ module HighCarb
 
     def start!(command, logger, auth)
       EM.run do
-        EM::WebSocket.start(host: '0.0.0.0', port: command.options["ws-port"] ) do |websocket|
-          WSConnection.new websocket, logger
+        if command.options["ws"]
+          EM::WebSocket.start(host: '0.0.0.0', port: command.options["ws-port"] ) do |websocket|
+            WSConnection.new websocket, logger
+          end
         end
 
         Thin::Server.start(
