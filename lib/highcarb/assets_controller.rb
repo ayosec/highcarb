@@ -26,12 +26,6 @@ module HighCarb
         mime_type = "text/css"
       end
 
-      # Process CoffeeScript
-      if asset_path.extname == ".coffee"
-        output = CoffeeScript.compile(asset_path.read)
-        mime_type = "application/javascript"
-      end
-
       if output == nil
         mime_type = MIME::Types.type_for(asset_path.to_s).first || "application/octet-stream"
         output = asset_path.read

@@ -2,8 +2,6 @@ PATH
   remote: .
   specs:
     highcarb (0.2.3)
-      coffee-script
-      em-websocket
       haml
       kramdown
       mime-types
@@ -16,21 +14,12 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     daemons (1.2.4)
-    em-websocket (0.5.1)
-      eventmachine (>= 0.12.9)
-      http_parser.rb (~> 0.6.0)
     eventmachine (1.2.3)
-    execjs (2.7.0)
     ffi (1.9.18)
     haml (5.0.1)
       temple (>= 0.8.0)
       tilt
-    http_parser.rb (0.6.0)
     kramdown (1.14.0)
     mime-types (3.1)
       mime-types-data (~> 3.2015)

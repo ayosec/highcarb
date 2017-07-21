@@ -110,7 +110,7 @@ module HighCarb
             "image"
           elsif mime_type.to_s == "text/css"
             "style"
-          elsif mime_type.to_s == "application/javascript" or asset_path.extname == "coffee"
+          elsif mime_type.to_s == "application/javascript"
             "javascript"
           end
       end

@@ -14,9 +14,14 @@
     %script{ src: "/assets/vendor/deck.js/extensions/status/deck.status.js" }
     %script{ src: "/assets/vendor/deck.js/extensions/hash/deck.hash.js" }
 
-    :javascript
-      window.EnableWebSocketsURL = #{!!options["ws"]};
-      window.WebSocketsURL = "ws://" + location.hostname + ":#{options["ws-port"].to_json}/";
+    %script{ src: "/assets/custom.js" }
 
-    = load_coffe "index"
-    %script{ src: "/assets/custom.coffee" }
+    :javascript
+      $(function() {
+        $.get("/slides", function(data) {
+          $(".slides").replaceWith(data);
+          $(".slides").find(".note").remove();
+          $.deck(".slide");
+        })
+      });
+

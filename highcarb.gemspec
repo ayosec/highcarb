@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["ayosec@gmail.com"]
   s.homepage    = "https://github.com/ayosec/highcarb"
   s.summary     = %q{Slides manager based on Deck.js }
-  s.description = %q{HighCarb can build a presentation based on HAML, Markdown or raw HTML, and let to control them from another browser, via WebSockets.}
+  s.description = %q{HighCarb can build a presentation based on HAML, Markdown or raw HTML}
 
   # Manifest
   s.files         = `git ls-files`.split("\n")
@@ -20,13 +20,11 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "thin"
   s.add_runtime_dependency "mime-types"
-  s.add_runtime_dependency "em-websocket"
   s.add_runtime_dependency "trollop"
   s.add_runtime_dependency "nokogiri"
   s.add_runtime_dependency "haml"
   s.add_runtime_dependency "sass"
   s.add_runtime_dependency "kramdown"
   s.add_runtime_dependency "rouge"
-  s.add_runtime_dependency "coffee-script"
 end
 

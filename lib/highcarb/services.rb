@@ -1,9 +1,6 @@
 
 require "thin"
-require "em-websocket"
-
 require "highcarb/rack_app"
-require "highcarb/sockets"
 
 module HighCarb
   module Services

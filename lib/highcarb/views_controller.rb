@@ -1,6 +1,5 @@
 
 require "json"
-require "coffee-script"
 
 module HighCarb
   module ViewsController
@@ -13,10 +12,6 @@ module HighCarb
         @app = app
         @options = options
         @root = root
-      end
-
-      def load_coffe(source)
-        "<script>//<![CDATA[\n" + CoffeeScript.compile(root.join(source + ".coffee").read) + "\n//]]></script>"
       end
 
       def jquery_path

@@ -29,7 +29,6 @@ module HighCarb
 
       create_file path.join("assets/README"),
         "Put in this directory any file that you want to use in your presentation (images, et al)\n\n" +
-        "Files ending with .coffee will be compiled with CoffeeScript.\n" +
         "Files ending with .scss will be compiled with SASS. Compass is available."
 
       create_file path.join("assets/base.scss"),
@@ -47,8 +46,7 @@ module HighCarb
 
 
       create_file path.join("assets/remote.scss"), "/* Add here your styles for the /remote view */"
-      create_file path.join("assets/custom-remote.coffee"), "# Add here your own code for the /remote view"
-      create_file path.join("assets/custom.coffee"), "# Add here your own code for the views"
+      create_file path.join("assets/custom.js"), "// Add here your own code for the views"
 
       create_file path.join("snippets/README"),
         "Put in this directory any snippet of code that you want to include in your presentation.\n" +

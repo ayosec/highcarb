@@ -1,36 +1,21 @@
 # HighCarb
 
-HighCarb is a framework to create presentations, and to control them remotely.
+HighCarb is a framework to create presentations.
 
 The presentation is based on Deck.js
 
 ## Installation
 
 ```
-  $ gem install highcarb
+$ gem install highcarb
 ```
 
-### Dependencies
-
-* A JavaScript interpreter is needed to compile the CoffeeScript source. Rhino or JavaScript can be used with no problems.
-
-In Debian (and derived) everything can be installed with
-
-```
-  $ sudo apt-get install nodejs
-```
-
-Mac OSX
-
-```
-  $ brew install node.js
-```
 ## Generate a presentation project
 
 The `-g` flag generate a new tree with the base for the presentation
 
 ```
-  $ highcarb -g /my/slides/foobar
+$ highcarb -g /my/slides/foobar
 ```
 
 ## Adding content
@@ -42,9 +27,7 @@ The generated tree is something like
 ├── assets
 │   ├── README
 │   ├── base.scss
-│   ├── remote.scss
-│   ├── custom.coffee
-│   ├── custom-remote.coffee
+│   ├── custom.js
 │   └── vendor
 │       └── deck.js
 │           ├── ...
@@ -65,7 +48,7 @@ The generator will concatenate all the files when the presentation is shown.
 
 `%snippet` is used to load a file from the `snippets` directory.
 
-`%asset` load a file from the `assets` directory. If the file is an image, an `img` will be created. If it is a CSS file (or SCSS), a `link` tag will be used. And, for JavaScript (or CoffeeScript) files, a `script` tag is used.
+`%asset` load a file from the `assets` directory. If the file is an image, an `img` will be created. If it is a CSS file (or SCSS), a `link` tag will be used. And, for JavaScript files, a `script` tag is used.
 
 If type asset type can not be determined by the MIME type, a CSS class can be added to the `asset` tag to force the type. The class can be `image`, `style` or `javascript`
 
@@ -73,15 +56,9 @@ If the asset is something else, a link will be added with an anchor.
 
 `%external` can be used to create link to external pages. The shown text is shorted to be less noisy.
 
-#### Notes
-
-Everything with the `note` CSS class will be removed from the slide. This content is accessible in the `remote` view.
-
 ## Assets
 
 Every file from the `asset` directory is accessible from the `http://domain/asset/` URL.
-
-If the file is a CoffeeScript source, it will be compiled as JavaScript before be sent. Same for SCSS.
 
 ## Example
 
@@ -90,7 +67,7 @@ With this files
 ```
 /slide
 ├── assets
-│   ├── hacks.coffee
+│   ├── hacks.js
     └── first.png
 └── snippets
     └── README
@@ -100,7 +77,7 @@ We could write
 
 ```haml
 
-  %asset hacks.coffee
+  %asset hacks.js
 
   .slide
     %h1 First slide
@@ -130,10 +107,6 @@ Some options are available with the `--help` flag.
 
 With the defaults options the web server will listen on 9090, so the presentation can
 be see at http://localhost:9090/
-
-To control it from another browser go to http://localhost:9090/remote. The remote view
-show the full slides, so you can see everything. Left and right keys can be used to move
-the slide of the remote browser.
 
 There is no need to restart the server if the content is changed. Everything will be regenerated
 when reload the page in the browser. The HTML generated for the snippets is cached. The cached key
