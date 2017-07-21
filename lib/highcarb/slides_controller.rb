@@ -1,6 +1,6 @@
-
 require "digest/md5"
 require "nokogiri"
+require "rouge"
 
 module HighCarb
   module SlidesController
@@ -76,17 +76,15 @@ module HighCarb
 
       else
 
-        content = begin
-          IO.popen(["pygmentize", "-f", "html", "-O", "noclasses=true", snippet_path.to_s]).read
-        rescue Errno::ENOENT
-          if not @pygmentize_error_shown
-            STDERR.puts "\033[31mpygmentize could not be used. You have to install it if you want to highlight the snippets."
-            STDERR.puts "The snippets will be included with no format\033[m"
-            @pygmentize_error_shown = true
+        content =
+          begin
+            formatter = Rouge::Formatters::HTMLInline.new(Rouge::Themes::Github)
+            lexer = Rouge::Lexer.guess_by_filename(snippet_name)
+            "<pre>" + formatter.format(lexer.lex(File.read(snippet_path))) + "</pre>"
+          rescue => e
+            STDERR.puts "\033[31mCould not render snippet #{snippet_name}: #{e}\033[m"
+            %[<pre class="raw-snippet">#{ERB::Util.h snippet_path.read}</pre>]
           end
-
-          %[<pre class="raw-snippet">#{ERB::Util.h snippet_path.read}</pre>]
-        end
 
         snippet_html_cached.dirname.mkpath
         snippet_html_cached.open("w") {|f| f.write content }

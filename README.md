@@ -12,20 +12,18 @@ The presentation is based on Deck.js
 
 ### Dependencies
 
-* You have to install Pygmentize if you want to highlight the code snippets.
 * A JavaScript interpreter is needed to compile the CoffeeScript source. Rhino or JavaScript can be used with no problems.
 
 In Debian (and derived) everything can be installed with
 
 ```
-  $ sudo apt-get install nodejs python-pygments
+  $ sudo apt-get install nodejs
 ```
 
 Mac OSX
 
 ```
   $ brew install node.js
-  $ sudo easy_install Pygments
 ```
 ## Generate a presentation project
 
@@ -65,7 +63,7 @@ The generator will concatenate all the files when the presentation is shown.
 
 #### Special tags
 
-`%snippet` is used to load a file from the `snippets` directory. If Pygmentize is found, the code will be highlighted. If not, the content will be shown in a monospace font.
+`%snippet` is used to load a file from the `snippets` directory.
 
 `%asset` load a file from the `assets` directory. If the file is an image, an `img` will be created. If it is a CSS file (or SCSS), a `link` tag will be used. And, for JavaScript (or CoffeeScript) files, a `script` tag is used.
 
