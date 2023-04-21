@@ -20,9 +20,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "kramdown"
   s.add_runtime_dependency "mime-types"
   s.add_runtime_dependency "nokogiri"
+  s.add_runtime_dependency "optimist"
   s.add_runtime_dependency "rouge"
   s.add_runtime_dependency "sassc"
   s.add_runtime_dependency "thin"
-  s.add_runtime_dependency "trollop"
 end
 

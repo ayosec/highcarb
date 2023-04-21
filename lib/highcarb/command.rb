@@ -1,7 +1,6 @@
-
-require "trollop"
-require "logger"
 require "io/console"
+require "logger"
+require "optimist"
 
 require "highcarb"
 require "highcarb/generator"
@@ -22,7 +21,7 @@ module HighCarb
     def parse!(args)
       @command_line = args.dup
       @args = args
-      @options = Trollop.options(@args) do
+      @options = Optimist.options(@args) do
         opt "generate", "Generate a new highcarb project"
         opt "server", "Start the servers (default action). See --http-port and --ws-port"
 
