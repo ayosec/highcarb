@@ -3,8 +3,14 @@ require "nokogiri"
 require "rouge"
 
 module HighCarb
-  module SlidesController
-    def slides
+  class SlidesRender
+    attr_reader :root
+
+    def initialize(root)
+      @root = root
+    end
+
+    def render
       output = []
 
       # Load the content from the sources
@@ -61,11 +67,10 @@ module HighCarb
       end
 
       # Response with everything
-      output = page.at("body").inner_html
-      throw :response, [200, {'Content-Type' => 'text/html'}, output]
+      page.at("body").inner_html
     end
 
-    def load_snippet(snippet_name)
+    private def load_snippet(snippet_name)
       snippet_path = root.join("snippets", snippet_name)
       snippet_html_cached = root.join("tmp", "snippets",
                                       Digest::MD5.new.tap {|digest| digest << snippet_path.read }.hexdigest + ".html")
@@ -92,7 +97,7 @@ module HighCarb
       end
     end
 
-    def load_asset(asset_name, css_class = [])
+    private def load_asset(asset_name, css_class = [])
       asset_path = assets_root.join(asset_name)
       asset_url = "/assets/#{ERB::Util.h asset_name}"
       asset_type = nil

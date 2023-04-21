@@ -28,8 +28,6 @@ module HighCarb
 
         opt "http-port", "HTTP server port", default: 9090
 
-        opt "skip-libs", "Don't download vendor libraries, like Deck.js and jQuery"
-
         opt "verbose", "Be verbose"
 
         opt "auth", "Require auth to access", default: ""

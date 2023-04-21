@@ -1,22 +1,11 @@
-require "json"
+require "highcarb/slides_render"
 
 module HighCarb
   module ViewsController
 
     DefaultViewsPath = Pathname.new(File.expand_path("../../../resources/views/", __FILE__))
 
-    class ViewContext
-      attr_reader :app, :options, :root
-      def initialize(app, options, root)
-        @app = app
-        @options = options
-        @root = root
-      end
-
-      def jquery_path
-        Dir.chdir(root) { Dir["assets/vendor/deck.js/jquery-*.js"].first }
-      end
-    end
+    ViewContext = Struct.new(:app, :options, :root, :slides)
 
     def render_view(view_name)
       view_path = root.join("views", view_name + ".haml")
@@ -28,7 +17,10 @@ module HighCarb
         not_found! view_name + " view"
       end
 
-      output = Haml::Template.new(view_path).render(ViewContext.new(self, command.options, view_path.dirname))
+      slides = SlidesRender.new(root)
+
+      ctx = ViewContext.new(self, command.options, view_path.dirname, slides.render)
+      output = Haml::Template.new(view_path).render(ctx)
 
       throw :response, [200, {'Content-Type' => 'text/html'}, output]
     end

@@ -1,27 +1,14 @@
 !!! 5
 %html
   %head
-    %link{rel: "stylesheet", href: "/assets/base.scss"}
+    %meta(charset="UTF-8")
 
-  %body.presenter.deck-container
-    .slides Loading...
+    %link(rel="stylesheet" href="/assets/main.scss")
 
-    %script{ src: app.config["jquery"] }
-    %script{ src: "/assets/vendor/deck.js/modernizr.custom.js" }
-    %script{ src: "/assets/vendor/deck.js/core/deck.core.js" }
-    %script{ src: "/assets/vendor/deck.js/extensions/menu/deck.menu.js" }
-    %script{ src: "/assets/vendor/deck.js/extensions/goto/deck.goto.js" }
-    %script{ src: "/assets/vendor/deck.js/extensions/status/deck.status.js" }
-    %script{ src: "/assets/vendor/deck.js/extensions/hash/deck.hash.js" }
+    %script(defer=true src="/vendor/shower.js")
+    %script(defer=true src="/assets/custom.js")
 
-    %script{ src: "/assets/custom.js" }
+    %link(rel="icon" href="data:image/svg+xml,<svg></svg>")
 
-    :javascript
-      $(function() {
-        $.get("/slides", function(data) {
-          $(".slides").replaceWith(data);
-          $(".slides").find(".note").remove();
-          $.deck(".slide");
-        })
-      });
-
+  %body.shower.list
+    != slides

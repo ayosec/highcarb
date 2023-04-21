@@ -7,15 +7,15 @@ require "yaml"
 
 require "highcarb/assets_controller"
 require "highcarb/message_queue"
-require "highcarb/slides_controller"
+require "highcarb/vendor_controller"
 require "highcarb/views_controller"
 
 module HighCarb
 
   class RackApp
 
-    include SlidesController
     include AssetsController
+    include VendorController
     include ViewsController
 
     attr_reader :assets_root
@@ -50,11 +50,11 @@ module HighCarb
 
       catch(:response) do
         case env["PATH_INFO"]
-        when "/slides"
-          slides
-
         when /\A\/assets\/(.*)\Z/
           assets $1
+
+        when /\A\/vendor\/(.*)\Z/
+          vendor $1
 
         when "/socket"
           ws = Faye::WebSocket.new(env)

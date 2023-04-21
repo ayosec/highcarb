@@ -28,10 +28,6 @@ The generated tree is something like
 │   ├── README
 │   ├── base.scss
 │   ├── custom.js
-│   └── vendor
-│       └── deck.js
-│           ├── ...
-│           └── ...
 ├── slides
 │   └── 0001.haml
 └── snippets

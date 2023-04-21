@@ -1,0 +1,65 @@
+// These definitions are for the basic structure of the presentation.
+//
+// It is expected that each presentation provides its own styles.
+
+:root {
+  --slide-fg: #000;
+  --slide-bg: #fff;
+
+  --list-fg: #fff;
+  --list-bg: #444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.shower {
+
+  &.full {
+    color: var(--slide-fg);
+    background: var(--slide-bg);
+
+    & > .slide:not(.active) {
+      display: none;
+    }
+
+    .next {
+      &:not(:is(.active, .visited)) {
+        visibility: hidden;
+      }
+    }
+  }
+
+  &.list {
+    color: var(--list-fg);
+    background: var(--list-bg);
+
+    position: absolute; // Required to avoid empty space after applying scale().
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10vw;
+
+    transform-origin: 0 0;
+    transform: scale(0.3);
+
+    & > .slide {
+      display: inline-block;
+      width: 100vw;
+      height: 100vh;
+      border: 3px solid var(--slide-fg);
+
+      &.active {
+        box-shadow: 0 0 5vw var(--slide-bg);
+      }
+    }
+  }
+
+  & > .slide {
+    font-size: 4vh;
+    color: var(--slide-fg);
+    background: var(--slide-bg);
+  }
+
+}
