@@ -2,6 +2,7 @@
  * Core for Shower HTML presentation engine
  * @shower/core v3.2.0, https://github.com/shower/core
  * @copyright 2010–2021 Vadim Makeev, https://pepelsbey.net
+ * @copyright 2023      Ayose C.
  * @license MIT
  */
 (function () {
@@ -32,7 +33,6 @@
 
     var defaultOptions = {
         containerSelector: '.shower',
-        progressSelector: '.progress',
         stepSelector: '.next',
         fullModeClass: 'full',
         listModeClass: 'list',
@@ -141,52 +141,13 @@
         }
     }
 
-    const createLiveRegion = () => {
-        const liveRegion = document.createElement('section');
-        liveRegion.className = 'region';
-        liveRegion.setAttribute('role', 'region');
-        liveRegion.setAttribute('aria-live', 'assertive');
-        liveRegion.setAttribute('aria-relevant', 'all');
-        liveRegion.setAttribute('aria-label', 'Slide Content: Auto-updating');
-        return liveRegion;
-    };
-
-    var a11y = (shower) => {
-        const { container } = shower;
-        const liveRegion = createLiveRegion();
-        container.appendChild(liveRegion);
-
-        const updateDocumentRole = () => {
-            if (shower.isFullMode) {
-                container.setAttribute('role', 'application');
-            } else {
-                container.removeAttribute('role');
-            }
-        };
-
-        const updateLiveRegion = () => {
-            const slide = shower.activeSlide;
-            if (slide) {
-                liveRegion.innerHTML = slide.element.innerHTML;
-            }
-        };
-
-        shower.addEventListener('start', () => {
-            updateDocumentRole();
-            updateLiveRegion();
-        });
-
-        shower.addEventListener('modechange', updateDocumentRole);
-        shower.addEventListener('slidechange', updateLiveRegion);
-    };
-
     var keys = (shower) => {
         const doSlideActions = (event) => {
-            const isShowerAction = !(event.ctrlKey || event.altKey || event.metaKey);
+            const isShowerAction = !(event.ctrlKey || event.altKey);
 
             switch (event.key.toUpperCase()) {
                 case 'ENTER':
-                    if (event.metaKey && shower.isListMode) {
+                    if (event.altKey && shower.isListMode) {
                         if (event.shiftKey) {
                             event.preventDefault();
                             shower.first();
@@ -255,30 +216,12 @@
             switch (event.key.toUpperCase()) {
                 case 'ESCAPE':
                     if (shower.isFullMode) {
-                        event.preventDefault();
                         shower.exitFullMode();
-                    }
-                    break;
-
-                case 'ENTER':
-                    if (event.metaKey && shower.isListMode) {
-                        event.preventDefault();
+                    } else {
                         shower.enterFullMode();
                     }
-                    break;
 
-                case 'P':
-                    if (event.metaKey && event.altKey && shower.isListMode) {
-                        event.preventDefault();
-                        shower.enterFullMode();
-                    }
-                    break;
-
-                case 'F5':
-                    if (event.shiftKey && shower.isListMode) {
-                        event.preventDefault();
-                        shower.enterFullMode();
-                    }
+                    event.preventDefault();
                     break;
             }
         };
@@ -341,7 +284,7 @@
         shower.addEventListener('slidechange', () => {
             const url = composeURL();
             if (!location.href.endsWith(url)) {
-                history.pushState(null, document.title, url);
+                history.replaceState(null, document.title, url);
             }
         });
     };
@@ -399,29 +342,6 @@
 
             event.preventDefault();
         });
-    };
-
-    var progress = (shower) => {
-        const { progressSelector } = shower.options;
-        const bar = shower.container.querySelector(progressSelector);
-        if (!bar) return;
-
-        bar.setAttribute('role', 'progressbar');
-        bar.setAttribute('aria-valuemin', 0);
-        bar.setAttribute('aria-valuemax', 100);
-
-        const updateProgress = () => {
-            const index = shower.activeSlideIndex;
-            const { length } = shower.slides;
-            const progress = (index / (length - 1)) * 100;
-
-            bar.style.width = `${progress}%`;
-            bar.setAttribute('aria-valuenow', progress);
-            bar.setAttribute('aria-valuetext', `Slideshow progress: ${progress}%`);
-        };
-
-        shower.addEventListener('start', updateProgress);
-        shower.addEventListener('slidechange', updateProgress);
     };
 
     const units = ['s', 'm', 'h'];
@@ -641,8 +561,6 @@
     };
 
     var installModules = (shower) => {
-        a11y(shower);
-        progress(shower);
         keys(shower);
         next(shower);
         timer(shower); // should come after `keys` and `next`
