@@ -1,4 +1,3 @@
-
 require "json"
 
 module HighCarb
@@ -29,7 +28,7 @@ module HighCarb
         not_found! view_name + " view"
       end
 
-      output = Haml::Engine.new(view_path.read).render(ViewContext.new(self, command.options, view_path.dirname))
+      output = Haml::Template.new(view_path).render(ViewContext.new(self, command.options, view_path.dirname))
 
       throw :response, [200, {'Content-Type' => 'text/html'}, output]
     end

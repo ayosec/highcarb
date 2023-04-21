@@ -1,5 +1,4 @@
-
-require "sass"
+require "sassc"
 
 module HighCarb
   module AssetsController
@@ -22,7 +21,7 @@ module HighCarb
 
       # Process SASS
       if asset_path.extname == ".scss"
-        output = Sass::Engine.for_file(asset_path.to_s, {}).render
+        output = SassC::Engine.new(asset_path.read, filename: asset_path.to_s).render
         mime_type = "text/css"
       end
 

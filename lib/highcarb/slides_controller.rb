@@ -13,7 +13,7 @@ module HighCarb
         if slide_file.file? and slide_file.basename.to_s !~ /^\./
           case slide_file.extname.downcase
           when ".haml"
-            output << Haml::Engine.new(slide_file.read).render
+            output << Haml::Template.new(slide_file).render
 
           when ".html"
             output << slide_file.read
