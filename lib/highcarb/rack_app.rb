@@ -6,6 +6,7 @@ require "kramdown"
 require "yaml"
 
 require "highcarb/assets_controller"
+require "highcarb/message_queue"
 require "highcarb/slides_controller"
 require "highcarb/views_controller"
 
@@ -17,18 +18,23 @@ module HighCarb
     include AssetsController
     include ViewsController
 
-    attr_reader :command
-    attr_reader :root
     attr_reader :assets_root
+    attr_reader :command
     attr_reader :config
+    attr_reader :logger
+    attr_reader :root
 
-    def initialize(command)
+    def initialize(command, logger)
       @command = command
+      @logger = logger
+
       @root = Pathname.new(command.args.first)
       @assets_root = @root.join("./assets")
 
       config_path = @root.join("config.yml")
       @config = config_path.exist? ? YAML.load(config_path.read) : {}
+
+      @msg_queue = HighCarb::MessageQueue.new(logger)
     end
 
     def plain_response!(status, content)
@@ -40,6 +46,8 @@ module HighCarb
     end
 
     def call(env)
+      logger.info "#{env["REQUEST_METHOD"]} #{env["PATH_INFO"]}"
+
       catch(:response) do
         case env["PATH_INFO"]
         when "/slides"
@@ -47,6 +55,11 @@ module HighCarb
 
         when /\A\/assets\/(.*)\Z/
           assets $1
+
+        when "/socket"
+          ws = Faye::WebSocket.new(env)
+          @msg_queue.add(ws)
+          ws.rack_response
 
         when "/remote"
           render_view "remote"

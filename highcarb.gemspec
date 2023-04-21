@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_runtime_dependency "faye-websocket"
   s.add_runtime_dependency "haml"
   s.add_runtime_dependency "kramdown"
   s.add_runtime_dependency "mime-types"

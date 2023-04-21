@@ -15,7 +15,7 @@ module HighCarb
     def initialize
       @command_line = @args = []
       @options = {}
-      @logger = Logger.new(STDERR).tap {|logger| logger.level = Logger::WARN }
+      @logger = Logger.new(STDERR).tap {|logger| logger.level = Logger::INFO }
     end
 
     def parse!(args)
@@ -23,7 +23,8 @@ module HighCarb
       @args = args
       @options = Optimist.options(@args) do
         opt "generate", "Generate a new highcarb project"
-        opt "server", "Start the servers (default action). See --http-port and --ws-port"
+
+        opt "server", "Start the servers (default action). See --http-port."
 
         opt "http-port", "HTTP server port", default: 9090
 
