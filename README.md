@@ -2,8 +2,6 @@
 
 HighCarb is a framework to create presentations.
 
-The presentation is based on Deck.js
-
 ## Installation
 
 ```
@@ -27,7 +25,7 @@ The generated tree is something like
 ├── assets
 │   ├── README
 │   ├── base.scss
-│   ├── custom.js
+│   └── custom.js
 ├── slides
 │   └── 0001.haml
 └── snippets
