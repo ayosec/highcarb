@@ -46,7 +46,6 @@ module HighCarb
         @import url("/vendor/slides.css");
       CSS
 
-      create_file path.join("assets/remote.scss"), "/* Add here your styles for the /remote view. */\n"
       create_file path.join("assets/custom.js"), "// Add here your own code for the views.\n"
 
       create_file path.join("snippets/README"), <<~TXT

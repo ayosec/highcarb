@@ -13,9 +13,9 @@ module HighCarb
         source = VENDOR_ROOT.join("styles/slides.scss")
         output = SassC::Engine.new(source.read, filename: source.to_s).render
 
-      when "shower.js"
+      when "shower.js", "remote-sync.js"
         mime_type = "application/javascript"
-        output = VENDOR_ROOT.join("javascript/shower.js").read
+        output = VENDOR_ROOT.join("javascript/#{name}").read
 
       else
         plain_response! 404, "Not Found"

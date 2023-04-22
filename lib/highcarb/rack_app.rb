@@ -65,9 +65,6 @@ module HighCarb
           @msg_queue.add(ws)
           ws.rack_response
 
-        when "/remote"
-          render_view "remote"
-
         when "/"
           render_view "index"
 
