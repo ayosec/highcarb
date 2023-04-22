@@ -50,6 +50,43 @@ If the asset is something else, a link will be added with an anchor.
 
 `%external` can be used to create link to external pages. The shown text is shorted to be less noisy.
 
+#### Custom Haml Filters
+
+You can register your own filters for use on the slide sources. Each filter is associated with a program that will be executed for each appearance of filter.
+
+The content of the filter is sent to the standard input of the program. Its output will be added to the generated HTML. Filters are always executed in the root directory of the presentation.
+
+Filters are registered in the `config.yaml` file in the root of the presentation directory, as items of the `haml_filters` key.
+
+For example, we can add a filter `notes` to execute `render-notes.sh`:
+
+```yaml
+haml_filters:
+  notes: ./render-notes.sh
+```
+
+Then, in the presentation directory we create `render-notes.sh`, with execute permission and the following content:
+
+```sh
+#!/bin/sh
+
+# Depends on https://github.com/commonmark/cmark
+
+printf '<div class="notes">'
+cmark
+printf '</div>'
+```
+
+Finally, in the Haml sources the filter can be used with `:notes`:
+
+```haml
+.slide
+  %h1 Title
+
+  :notes
+    Content that will be sent to `render-notes.sh`
+```
+
 ## Assets
 
 Every file from the `asset` directory is accessible from the `http://domain/asset/` URL.

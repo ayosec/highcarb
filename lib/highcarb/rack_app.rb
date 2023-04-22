@@ -31,8 +31,12 @@ module HighCarb
       @root = Pathname.new(command.args.first)
       @assets_root = @root.join("./assets")
 
-      config_path = @root.join("config.yml")
+      config_path = @root.join("config.yaml")
       @config = config_path.exist? ? YAML.load(config_path.read) : {}
+
+      if haml_filters = @config["haml_filters"]
+        HighCarb::HamlFilters.register_all(@root, logger, haml_filters)
+      end
 
       @msg_queue = HighCarb::MessageQueue.new(logger)
     end

@@ -56,6 +56,18 @@ module HighCarb
         The snippets are loaded with a <snippet>name.rb</snippet> tag.
         With Haml, you can use %snippet name.rb
       TXT
+
+      create_file path.join("config.yaml"), <<~YAML
+        # Custom Haml filters.
+        #
+        # You can register your own filters for use on the slide sources. Each filter
+        # is associated with a program that will be executed for each node using the
+        # filter.
+        #
+        # The content of the filter is sent to the standard input of the program. Its
+        # output will be added to the generated HTML.
+        haml_filters:
+      YAML
     end
 
     private def create_file(path, content)

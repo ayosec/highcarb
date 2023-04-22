@@ -4,6 +4,7 @@ require "optimist"
 
 require "highcarb"
 require "highcarb/generator"
+require "highcarb/haml_filters"
 require "highcarb/services"
 
 module HighCarb
