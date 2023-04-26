@@ -164,25 +164,14 @@
                     }
                     break;
 
-                case 'BACKSPACE':
-                case 'PAGEUP':
-                case 'ARROWUP':
                 case 'ARROWLEFT':
-                case 'H':
-                case 'K':
-                case 'P':
                     if (isShowerAction) {
                         event.preventDefault();
                         shower.prev(event.shiftKey);
                     }
                     break;
 
-                case 'PAGEDOWN':
-                case 'ARROWDOWN':
                 case 'ARROWRIGHT':
-                case 'L':
-                case 'J':
-                case 'N':
                     if (isShowerAction) {
                         event.preventDefault();
                         shower.next(event.shiftKey);
