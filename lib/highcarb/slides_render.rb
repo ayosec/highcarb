@@ -5,9 +5,11 @@ require "rouge"
 module HighCarb
   class SlidesRender
     attr_reader :root
+    attr_reader :assets_root
 
     def initialize(root)
       @root = root
+      @assets_root = root.join("./assets")
     end
 
     def render
