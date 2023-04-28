@@ -87,6 +87,41 @@ Finally, in the Haml sources the filter can be used with `:notes`:
     Content that will be sent to `render-notes.sh`
 ```
 
+##### Stream Protocol
+
+If the program takes a long time to start, you can use the `stream:` protocol to
+send and receive the data.
+
+First, in the `config.yaml` entry, declare the filter with the `stream:` prefix:
+
+```yaml
+haml_filters:
+  foo: stream:./render-foo
+```
+
+Then, when `render-foo` is executed, it will run as a background process. For
+each instance of the `:foo` filter in Haml, the program will receive a message
+with the following format:
+
+    <size, in bytes, of the content, decimal digits> "\n"
+    <content>
+
+For example, if the source contains this code:
+
+```haml
+:foo
+    test
+```
+
+The program will receive a message like this:
+
+```ruby
+"5\ntest\n"
+```
+
+The response has to follow the same format: a line with the size (in bytes) of
+the HTML, and the HTML code.
+
 ## Assets
 
 Every file from the `asset` directory is accessible from the `http://domain/asset/` URL.

@@ -6,11 +6,23 @@ module HighCarb
 
     CUSTOM_FILTERS = {}
 
-    Filter = Struct.new(:root, :logger, :command)
+    Filter = Struct.new(
+      :root,
+      :logger,
+      :stream,
+      :command,
+      :bg_process
+    )
 
     def self.register_all(root, logger, filters)
       filters.each_pair do |name, command|
-        CUSTOM_FILTERS[name.to_s] = Filter.new(root, logger, Shellwords.split(command))
+        stream = false
+        if command =~ /\Astream:(.*)\Z/m
+          command = $1
+          stream = true
+        end
+
+        CUSTOM_FILTERS[name.to_s] = Filter.new(root, logger, stream, Shellwords.split(command), nil)
         Haml::Filters.registered[name.to_sym] = self
       end
     end
@@ -25,14 +37,45 @@ module HighCarb
       text = node.value[:text]
       text = text.rstrip unless ::Haml::Util.contains_interpolation?(text) # for compatibility
 
-      child = IO.popen(filter.command, "r+", chdir: filter.root)
-      child.write(text)
-      child.close_write
-      html = child.read
+      html = nil
 
-      Process.waitpid(child.pid)
-      if not $?.success?
-        filter.logger.error "Process for #{filter.command.inspect} failed"
+      # Try to send the note to a background process.
+      if child = filter.bg_process
+        begin
+          child.write("#{text.bytesize}\n#{text}")
+          child.flush
+
+          bytesize = Integer(child.readline.chomp)
+          html = child.read(bytesize)
+        rescue Errno::EPIPE
+          filter.logger.error "Process #{child.pid} unavailable."
+          Process.waitpid(child.pid)
+          filter.bg_process = nil
+        end
+      end
+
+      # Launch the command if we still don't have the HTML
+      if html.nil?
+        child = IO.popen(filter.command, "r+", chdir: filter.root)
+
+        if filter.stream
+          filter.bg_process = child
+
+          child.write("#{text.bytesize}\n#{text}")
+          child.flush
+
+          bytesize = Integer(child.readline.chomp)
+          html = child.read(bytesize)
+        else
+          child.write(text)
+          child.close_write
+          html = child.read
+
+          Process.waitpid(child.pid)
+          if not $?.success?
+            filter.logger.error "Process for #{filter.command.inspect} failed"
+          end
+        end
       end
 
       [:multi, *compile_plain(html)]
